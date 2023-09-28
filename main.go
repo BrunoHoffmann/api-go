@@ -1,6 +1,6 @@
 package main
 
-import "api/router"
+import "github.com/BrunoHoffmann/api-go/router"
 
 func main() {
 	// Initialize Router

@@ -1,4 +1,4 @@
-module api
+module github.com/BrunoHoffmann/api-go
 
 go 1.21.1
 
