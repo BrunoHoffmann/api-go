@@ -16,6 +16,33 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/opening": {
+            "get": {
+                "description": "List job openings",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Openings"
+                ],
+                "summary": "List opening",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ListOpeningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create a new job opening",
                 "consumes": [
@@ -48,6 +75,54 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a job opening",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Openings"
+                ],
+                "summary": "Delete opening",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Opening identification",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.DeleteOpeningResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/handler.ErrorResponse"
                         }
@@ -97,11 +172,36 @@ const docTemplate = `{
                 }
             }
         },
+        "handler.DeleteOpeningResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schemas.OpeningResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.ErrorResponse": {
             "type": "object",
             "properties": {
                 "errorCode": {
                     "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.ListOpeningResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.OpeningResponse"
+                    }
                 },
                 "message": {
                     "type": "string"
